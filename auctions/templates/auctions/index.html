@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+<style>
+    .grid {
+        grid-template-columns: 50px,50px,100px;
+        margin: 10px;
+        text-align: left;
+    }
+    .text {
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+{% block body %}
+    <h2>Active Listings</h2>
+    
+    <ul>
+        {% for listing in listings %}
+        <div class="grid">
+            <img src="{{ listing.image }}" width="300px">
+        </div> 
+        <a href="{% url 'item' listing.id %}">{{ listing.title }}</a>
+            
+        {% endfor %}    
+    </ul>
+    
+{% endblock %}

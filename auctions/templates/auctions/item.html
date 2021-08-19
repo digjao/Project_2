@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+<style>
+    #font {
+        font: arial, sans-serif;
+        font-size: 20px;
+    }
+</style>
+
+{% block body %}
+<h1>{{ item.title}}</h1>
+<img src="{{ item.image }}" width="500px">
+<div id="font">${{ item.initialBid }}</div>
+<div id="font">{{ item.description }}</div>
+
+{% endblock %}
