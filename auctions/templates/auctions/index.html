@@ -13,6 +13,7 @@
 </style>
 {% block body %}
     <h2>Active Listings</h2>
+    <a href="{% url 'newlist'%}">Create a new list</a>
     
     <ul>
         {% for listing in listings %}

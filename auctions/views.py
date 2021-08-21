@@ -1,10 +1,17 @@
+import re
+from auctions.forms import Newlist
 from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.db import IntegrityError, models
+from django.http import HttpResponse, HttpResponseRedirect, request
 from django.shortcuts import render
 from django.urls import reverse
+from django.forms import ModelForm
+from django.contrib.auth.decorators import login_required
 
-from .models import Listing, User
+from .models import Category, Listing, User
+
+
+
 
 
 def index(request):
@@ -16,11 +23,37 @@ def item(request, item_id):
     item = Listing.objects.get(pk=item_id)
     return render(request, "auctions/item.html", {
         "item": item
-    })
+    })     
+
+# def newlist(request):
+#      if request.method == "POST"
+#         f = (title=reques.POST["title"]
+#               category = request.POST["category"]
+#               description = request.POST["description"] )   
+#         }
+#         return render(request, "auctions/newlist.html",)
+
+@login_required
+def newlist(request):
+        return render(request, "auctions/newlist.html", {
+            "form": Newlist(),})
+
+@login_required
+def savelist(request):
+    print("entrei aqui antes")
+    if request.method == "POST":
+        form = Newlist(request.POST)
+        print("entrei aqui")
+        if form.is_valid():
+            listing = form.save()
+            listing.creator = request.user
+            listing.save()
+            return HttpResponseRedirect(reverse("item", kwargs={'item_id': listing.id}))
+            
+
+        
 
 
-
-     
 
 def login_view(request):
     if request.method == "POST":
